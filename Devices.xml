@@ -1,0 +1,3 @@
+<devices>
+<device bonjour="LED_DISPLAY_1" id="1" location="This display is used for debugging." name="Debug Display" />
+</devices>

@@ -1,0 +1,405 @@
+$def with (i, broadcast_stat, remove_stat, device_stat,  messages, devices)
+
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>ABN-AMRO LED-DISPLAYS</title>
+
+    <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="static/css/freelancer.css" rel="stylesheet">
+    <link href="static/css/bootstrap-select.css" rel="stylesheet">
+
+
+
+    <!-- Custom Fonts -->
+    <link href="static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+
+<body id="page-top" class="index">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#page-top">Led-Display Manager!</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#messages">Messages</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#displays">Displays</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#broadcast">Broadcast!</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#device">Devices</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <img class="img-responsive" src="static/img/profile.png" alt="">
+                    <div class="intro-text">
+                        <span class="name">Broadcast Messages!</span>
+                        <hr class="star-light">
+                        <span class="skills">Use this webportal to broadcast messages to the INOVA led-displays within Abn-Amro!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Show Messages -->
+    <section id="messages">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Manage Messages!</h2>
+                    <hr class="star-primary">
+                </div>
+            </div>
+
+<div class="col-lg-12 text-center">
+    $if remove_stat == "true":
+        <div class="alert alert-success" role="alert">
+        <div class="panel-title" align="center">Message has been removed!</div>
+        </div>
+    $elif remove_stat == "false":
+        <div class="alert alert alert-danger" role="alert">
+        <div class="panel-title" align="center">Message has <b>NOT</b> been removed!</div>
+        </div>
+
+    $if broadcast_stat == "true":
+        <div class="alert alert-success" role="alert">
+        <div class="panel-title" align="center">Message has been sent!</div>
+        </div>
+    $elif broadcast_stat == "false":
+        <div class="alert alert alert-danger" role="alert">
+        <div class="panel-title" align="center">Message was <b>NOT</b> sent!</div>
+        </div>
+</div>
+<div class="row">
+
+    $for message in messages:
+        <div class="col-sm-4 messages-item">
+        <form action="remove_message" method="post">
+        <a href="#" onclick="$$(this).closest('form').submit()" type="submit"  class="messages-link">
+        <input type="hidden" name="message_id" value="$message.attrib['id']"/>
+        <div class="caption">
+        <div class="caption-content">
+        <i class="glyphicon glyphicon-remove"></i>
+        </div>
+        </div>
+        <div class="panel-heading">
+        <h3 class="panel-title">$message.attrib['name']</h3>
+        </div>
+        <div class="panel-body">
+        $message.attrib['content']
+        </div>
+        </a>
+        </form>
+        </div>
+</div>
+        </div>
+    </section>
+
+    <!-- Show Displays -->
+    <section class="success"  id="displays">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Manage Displays!</h2>
+                    <hr class="star-light">
+                </div>
+            </div>
+
+    $if device_stat == "true":
+        <div class="alert alert-success" role="alert">
+        <div class="panel-title" align="center">Device has been removed!</div>
+        </div>
+    $elif device_stat == "false":
+        <div class="alert alert alert-danger" role="alert">
+        <div class="panel-title" align="center">Device has <b>NOT</b> been removed!</div>
+        </div>
+
+<div class="row">
+    $for device in devices:
+        <div class="col-sm-4 displays-item">
+        <form action="remove_device" method="post">
+        <a href="#" onclick="$$(this).closest('form').submit()" type="submit"  class="displays-link">
+        <input type="hidden" name="device_id" value="$device.attrib['id']"/>
+        <div class="caption">
+        <div class="caption-content">
+        <i class="glyphicon glyphicon-remove"></i>
+        </div>
+        </div>
+        <div class="panel-heading">
+        <h3 class="panel-title">$device.attrib['name']</h3>
+        </div>
+        <div class="panel-body">
+        $device.attrib['location']
+        </div>
+        </a>
+        </form>
+        </div>
+</div>
+
+        </div>
+    </section>
+
+    <!-- Broadcast Message -->
+    <section id="broadcast">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Broadcast a new message!</h2>
+                    <hr class="star-primary">
+                </div>
+
+
+</div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+                    <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
+
+<form method="post" action="add_message" id="add_message">
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label>Name</label>
+                                <input type="text" class="form-control" placeholder="Name" name="name" id="name" required data-validation-required-message="Please enter a name!">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="row control-group">
+                            <div align="center" class="form-group col-xs-12 floating-label-form-group controls">
+
+<script>var form = document.getElementById('add_message');
+
+try {
+    form.addEventListener("submit", submitFn, false);
+} catch(e) {
+    form.attachEvent("onsubmit", submitFn); //IE8
+}
+
+function submitFn(event) {
+    event.preventDefault();
+    var boxes = document.getElementsByClassName('checkbox-inline');
+    var checked = [];
+    for(var i=0; boxes[i]; ++i){
+      if(boxes[i].checked){
+        checked.push(boxes[i].value);
+      }
+    }
+
+    var checkedStr = checked.join();
+
+    document.getElementById('display').value = checkedStr;
+    form.submit();
+
+    return false;
+}
+</script>
+    $for device in devices:
+
+            <input class="checkbox-inline" type="checkbox" value = "$device.attrib['bonjour']">$device.attrib['name']
+
+<input type="hidden" name="display" id="display"  >
+</div>
+                        </div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label>Content</label>
+                                <input type="text" class="form-control" placeholder="Message" name="content" id="content" required data-validation-required-message="Please enter a message!">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+
+                        <div align="center" class="form-group col-xs-12 floating-label-form-group controls">
+
+                        <select class="selectpicker" name="size">
+                            <option value="6">Text: 6px</option>
+                            <option value="8">Text: 8px</option>
+                            <option value="12">Text: 12px</option>
+                            <option value="16">Text: 16px</option>
+                        </select>
+
+                        <select class="selectpicker" name="color">
+                            <option value="red">Red</option>
+                            <option value="green">Green</option>
+                            <option value="yellow">Yellow</option>
+                            <option value="hrainbow">H-Rainbow</option>
+                            <option value="vrainbow">V-Rainbow</option>
+                        </select>
+                        <select class="selectpicker" name="presentation">
+                            <option value="appear">Mode: Appear</option>
+                            <option value="ribbon_left">Mode: Ribbon Left</option>
+                            <option value="ribbon_right">Mode: Ribbon Right</option>
+                            <option value="scroll_up">Mode: Scroll Up</option>
+                            <option value="scroll_down">Mode: Scroll Down</option>
+                            <option value="fade">Mode: Fade</option>
+                            <option value="slide">Mode: Slide</option>
+                            <option value="spell">Mode: Spell</option>
+                            <option value="venetian">Mode: Venetian</option>
+                            <option value="expand">Mode: Expand</option>
+                            <option value="contract">Mode: Contract</option>
+                        </select>
+
+                        </div>
+
+                        <br>
+                        <div id="success"></div>
+                        <div class="row">
+                            <div class="form-group col-xs-12">
+                                <button type="submit" value="add_message" class="btn btn-success btn-lg">Broadcast!</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Add Device -->
+    <section id="device">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Add a new LED-Display!</h2>
+                    <hr class="star-primary">
+                </div>
+
+
+</div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+                    <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
+
+<form method="post" action="add_device">
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label>Name</label>
+                                <input type="text" class="form-control" placeholder="Friendly name" name="name" id="name" required data-validation-required-message="Please enter a name!">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label>Zeroconf</label>
+                                <input type="text" class="form-control" placeholder="Zeroconf name" name="bonjour" id="bonjour" required data-validation-required-message="Please enter the zeroconf name!">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label>About</label>
+                                <textarea rows="5" class="form-control" placeholder="About the display" name="location" id="location" required data-validation-required-message="Please provide a description!"></textarea>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+
+
+
+                        <br>
+                        <div id="success"></div>
+                        <div class="row">
+                            <div class="form-group col-xs-12">
+                                <button type="submit" value="add_device" class="btn btn-success btn-lg">Add Display!</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="footer-below">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        Created by Kevin Bankersen @ABN-ARMRO 2015
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+    <div class="scroll-top page-scroll visible-xs visible-sm">
+        <a class="btn btn-primary" href="#page-top">
+            <i class="fa fa-chevron-up"></i>
+        </a>
+    </div>
+
+    <!-- jQuery -->
+    <script src="static/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="static/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="static/js/classie.js"></script>
+    <script src="static/js/cbpAnimatedHeader.js"></script>
+    <script src="static/js/bootstrap-select.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <!-- <script src="static/js/jqBootstrapValidation.js"></script> -->
+    <!-- <script src="static/js/contact_me.js"></script> -->
+
+    <!-- Custom Theme JavaScript -->
+    <script src="static/js/freelancer.js"></script>
+
+</body>
+
+</html>
